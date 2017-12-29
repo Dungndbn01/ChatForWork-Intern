@@ -176,7 +176,8 @@ class ChatLogController: UIViewController, UINavigationControllerDelegate, UITex
         showToUserButton.addTarget(self, action: #selector(handleShowToUser), for: .touchUpInside)
                 
         sendButton.setTitle("Send", for: .normal)
-        sendButton.setTitleColor(.lightGray, for: .normal)
+        sendButton.setTitleColor(.gray, for: .normal)
+        sendButton.isEnabled = false
         sendButton.addTarget(self, action: #selector(handleSend), for: .touchUpInside)
         
         chatLogTableView.isScrollEnabled = true
@@ -246,6 +247,7 @@ class ChatLogController: UIViewController, UINavigationControllerDelegate, UITex
         showEmojiButton.tintColor = .black
         showToUserButton.setTitleColor(.black, for: .normal)
         showOptionsButton.tintColor = .blue
+        sendButton.setTitleColor(.gray, for: .normal)
         
         setupOptionsContainerView()
         emoji.view.removeFromSuperview()
@@ -274,9 +276,10 @@ class ChatLogController: UIViewController, UINavigationControllerDelegate, UITex
                 let properties: [String: AnyObject] = ["text": inputTextView.text! as AnyObject]
                 let properties2: [String: String] = ["a": "a"]
                 var properties3: [String: String] = ["b": "b"]
+                if self.partnerNameArr.count > 0 {
                 for i in 0..<self.partnerNameArr.count {
                     properties3.updateValue(self.partnerNameArr[i], forKey: String(i))
-                }
+                    } }
 
                 sendMessageWithProperties(properties: properties, properties2: properties2, properties3: properties3)
                 
@@ -286,6 +289,7 @@ class ChatLogController: UIViewController, UINavigationControllerDelegate, UITex
         partnerNameArr = [String]()
         partnerNameColView.reloadData()
         sendButton.setTitleColor(.gray, for: .normal)
+        sendButton.isEnabled = false
     }
     
     func backButtonClick(sender: UIButton) {

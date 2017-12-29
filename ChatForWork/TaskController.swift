@@ -13,6 +13,7 @@ class TaskController: UIViewController {
     lazy var customNavBar = UIView()
     lazy var addTaskButton = UIButton()
     lazy var navTitleView = UILabel()
+    lazy var separatorView = UIView()
 
     let taskSegmentedControl: UISegmentedControl = {
         let sc = UISegmentedControl(items: ["My Tasks", "Requested Task"])
@@ -70,6 +71,7 @@ class TaskController: UIViewController {
     
     func addMyTaskView() {
         taskView.addSubview(myTask.view)
+        myTask.view.fillSuperview()
         self.addChildViewController(myTask)
         myTask.didMove(toParentViewController: self)
         
@@ -79,6 +81,7 @@ class TaskController: UIViewController {
     
     func addResquestedTaskView() {
         taskView.addSubview(requestedTask.view)
+        requestedTask.view.fillSuperview()
         self.addChildViewController(requestedTask)
         requestedTask.didMove(toParentViewController: self)
         
@@ -109,13 +112,15 @@ class TaskController: UIViewController {
         addTaskButton.addTarget(self, action: #selector(handleAddTask), for: .touchUpInside)
 
         taskSegmentContainer.backgroundColor = UIColor(r: 235, g: 235, b: 235)
+        separatorView.backgroundColor = UIColor(r: 200, g: 200, b: 200)
         taskSegmentContainer.translatesAutoresizingMaskIntoConstraints = false
-        taskView.backgroundColor = .white
+        taskView.backgroundColor = UIColor(r: 235, g: 235, b: 235)
         
         view.addSubview(customNavBar)
         view.addSubview(navTitleView)
         view.addSubview(addTaskButton)
         view.addSubview(taskSegmentContainer)
+        view.addSubview(separatorView)
         taskSegmentContainer.addSubview(taskSegmentedControl)
         view.addSubview(taskView)
         
@@ -133,7 +138,9 @@ class TaskController: UIViewController {
         taskSegmentedControl.leftAnchor.constraint(equalTo: taskSegmentContainer.leftAnchor, constant: 40).isActive = true
         taskSegmentedControl.rightAnchor.constraint(equalTo: taskSegmentContainer.rightAnchor, constant: -40).isActive = true
         
-        taskView.anchor(taskSegmentContainer.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 50, rightConstant: 0, widthConstant: 0, heightConstant: 0)
+        separatorView.anchor(taskSegmentContainer.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 1)
+        
+        taskView.anchor(separatorView.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 50, rightConstant: 0, widthConstant: 0, heightConstant: 0)
         
     }
     

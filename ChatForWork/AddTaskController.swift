@@ -110,6 +110,12 @@ class AddTaskController: UIViewController, UITableViewDataSource, UITableViewDel
         } else {
             cell.rightLogo.image = UIImage(named: "LeftRightICO")
         }
+        if indexPath.row == 2 {
+            if MyObject.instance().taskEdit == true {
+                cell.isUserInteractionEnabled = false
+            }
+        }
+        
         return cell
     }
     
@@ -141,6 +147,17 @@ class AddTaskController: UIViewController, UITableViewDataSource, UITableViewDel
     }
     
     func handleCancel() {
+        textContainer.text = ""
+        MyObject.instance().taskEdit = false
+        MyObject.instance().rowRef = nil
+        MyObject.instance().addTaskSource = "Default"
+        MyObject.instance().users = [User]()
+        MyObject.instance().taskText = ""
+        MyObject.instance().userId = ""
+        MyObject.instance().groupId = ""
+        MyObject.instance().dueDateText = ""
+        MyObject.instance().userNameFromMessage = ""
+
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -157,7 +174,18 @@ class AddTaskController: UIViewController, UITableViewDataSource, UITableViewDel
         }
     }
     
-    func handleDone() {
+    func updateTask() {
+        if let taskId = MyObject.instance().taskId {
+        let ref1 = Database.database().reference(withPath: "message/\(taskId)/infoDict/text")
+        ref1.setValue(textContainer.text)
+            
+        let ref2 = Database.database().reference(withPath: "message/\(taskId)/infoDict/dueDate")
+        ref2.setValue(dueDateLabel.text)
+        }
+        MyObject.instance().taskText = ""
+    }
+    
+    func uploadTask() {
         let properties: [String: AnyObject] = ["text": textContainer.text! as AnyObject, "dueDate": MyObject.instance().dueDateText as AnyObject, "taskReceiver": MyObject.instance().userNameFromMessage as AnyObject, "taskRequestor": requestorName as AnyObject]
         var properties2: [String: String] = ["a": "a"]
         for i in 0..<MyObject.instance().users.count {
@@ -168,10 +196,23 @@ class AddTaskController: UIViewController, UITableViewDataSource, UITableViewDel
         chatLog.sendMessageWithProperties(properties: properties, properties2: properties2, properties3: properties3)
         
         textContainer.text = ""
+        MyObject.instance().rowRef = nil
+        MyObject.instance().addTaskSource = "Default"
+        MyObject.instance().taskText = ""
         MyObject.instance().userId = ""
         MyObject.instance().groupId = ""
         MyObject.instance().dueDateText = ""
         MyObject.instance().userNameFromMessage = ""
+    }
+    
+    func handleDone() {
+        if MyObject.instance().taskEdit == true {
+            updateTask()
+        } else {
+            uploadTask()
+        }
+        
+        MyObject.instance().taskEdit = false
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -189,7 +230,6 @@ class AddTaskController: UIViewController, UITableViewDataSource, UITableViewDel
         
         doneButton.setTitleColor(.white, for: .normal)
         doneButton.setTitle("Done", for: .normal)
-        doneButton.isEnabled = false
         doneButton.addTarget(self, action: #selector(handleDone), for: .touchUpInside)
         
         textContainer.backgroundColor = .white
@@ -197,16 +237,26 @@ class AddTaskController: UIViewController, UITableViewDataSource, UITableViewDel
         textContainer.font = UIFont.systemFont(ofSize: 16)
         textContainer.translatesAutoresizingMaskIntoConstraints = false
         textContainer.textContainerInset = UIEdgeInsetsMake(12, 12, 12, 12)
-        if MyObject.instance().taskText == "" {
-            textContainer.text = "Task decription" }
-        else {
-            textContainer.text = MyObject.instance().taskText
+        if MyObject.instance().taskText == "" && (textContainer.text == "" || textContainer.text == "Task decription") {
+            textContainer.text = "Task decription"
+            textContainer.textColor = .lightGray
         }
-        textContainer.textColor = .lightGray
+        else if MyObject.instance().taskText == "" && textContainer.text != "" && textContainer.text != "Task decription" {
+            textContainer.textColor = .darkText
+        } else {
+            textContainer.text = textContainer.text + MyObject.instance().taskText
+            textContainer.textColor = .darkText
+        }
         
-        chatPartnerName.textColor = MyObject.instance().userNameFromMessage != "" ? UIColor.gray : UIColor.blue
+        chatPartnerName.textColor = MyObject.instance().addTaskSource == "Default" ? UIColor.gray : UIColor.blue
         chatPartnerName.textAlignment = .right
-        chatPartnerName.text = MyObject.instance().userNameFromMessage
+        if MyObject.instance().userNameFromMessage != "" {
+            if MyObject.instance().userId == Auth.auth().currentUser?.uid {
+                chatPartnerName.text = "My Chat" }
+            else {
+                chatPartnerName.text = MyObject.instance().userNameFromMessage
+            }
+        }
         
         dueDateLabel.textColor = .blue
         dueDateLabel.textAlignment = .right
@@ -268,7 +318,7 @@ class AddTaskController: UIViewController, UITableViewDataSource, UITableViewDel
 
         myTableView.anchor(textContainer.bottomAnchor, left: self.view.leftAnchor, bottom: nil, right: self.view.rightAnchor, topConstant: 20, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 120)
         
-        chatPartnerName.anchor(textContainer.bottomAnchor, left: nil, bottom: nil, right: textContainer.rightAnchor, topConstant: 32, leftConstant: 0, bottomConstant: 0, rightConstant: 36, widthConstant: 150, heightConstant: 16)
+        chatPartnerName.anchor(textContainer.bottomAnchor, left: nil, bottom: nil, right: textContainer.rightAnchor, topConstant: 32, leftConstant: 0, bottomConstant: 0, rightConstant: 36, widthConstant: 150, heightConstant: 20)
         
         dueDateLabel.anchor(textContainer.bottomAnchor, left: nil, bottom: nil, right: textContainer.rightAnchor, topConstant: 72, leftConstant: 0, bottomConstant: 0, rightConstant: 36, widthConstant: 150, heightConstant: 16)
         
@@ -282,7 +332,7 @@ class AddTaskController: UIViewController, UITableViewDataSource, UITableViewDel
     func textViewDidBeginEditing(_ textView: UITextView) {
         if  textContainer.textColor == UIColor.lightGray {
             textContainer.selectedTextRange = textContainer.textRange(from: textContainer.beginningOfDocument, to: textContainer.beginningOfDocument)
-            textContainer.text = "Task description"
+//            textContainer.text = "Task description"
             doneButton.isEnabled = false
         }
     }
@@ -295,7 +345,7 @@ class AddTaskController: UIViewController, UITableViewDataSource, UITableViewDel
         if (updatedText?.isEmpty)! {
             doneButton.isEnabled = false
             textContainer.text = "Task description"
-            textContainer.textColor = UIColor.lightGray
+                textContainer.textColor = UIColor.lightGray
             textContainer.selectedTextRange = textContainer.textRange(from: textContainer.beginningOfDocument, to: textContainer.beginningOfDocument)
             return true
         }
@@ -321,7 +371,7 @@ class AddTaskController: UIViewController, UITableViewDataSource, UITableViewDel
         if self.view.window != nil {
             if textContainer.textColor == UIColor.lightGray {
                 textContainer.selectedTextRange = textContainer.textRange(from: textView.beginningOfDocument, to: textContainer.beginningOfDocument)
-                textContainer.text = "Task description"
+//                textContainer.text = "Task description"
                 doneButton.isEnabled = false
             }
         }

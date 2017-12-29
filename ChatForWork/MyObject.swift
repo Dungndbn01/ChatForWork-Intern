@@ -9,6 +9,9 @@
 import UIKit
 
 class MyObject: NSObject {
+    var taskEdit: Bool = false
+    var taskId: String?
+    var addTaskSource: String = "Default"
     var myProfileTitle: String?
     var myProfileName: String?
     var myProfileRow: Int?

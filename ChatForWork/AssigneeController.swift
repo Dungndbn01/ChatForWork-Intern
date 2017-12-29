@@ -32,12 +32,17 @@ class AssigneeController: UIViewController, UITableViewDataSource, UITableViewDe
     
     func fetchUserInfo() {
         let uid = Auth.auth().currentUser?.uid
+        var arr = [String]()
 
-        if MyObject.instance().userId != nil {
-            let userId = MyObject.instance().userId
-            let partnerId = userId
-            for id in [uid, partnerId] {
-                let ref = Database.database().reference().child("user").child(id!)
+        if MyObject.instance().userId != "" {
+            let partnerId = MyObject.instance().userId
+            if uid == partnerId {
+                arr = [uid!]
+            } else {
+                arr = [uid!, partnerId!]
+            }
+            for id in arr {
+                let ref = Database.database().reference().child("user").child(id)
                 ref.observeSingleEvent(of: .value, with: {
                     (DataSnapshot) in
                     let dictionary = DataSnapshot.value as! [String: AnyObject]
@@ -46,9 +51,10 @@ class AssigneeController: UIViewController, UITableViewDataSource, UITableViewDe
                     self.selectCheck.append(false)
                     self.users.append(user)
                     self.myTableView.reloadData()
+                    ref.removeAllObservers()
                 })
             }
-        } else if MyObject.instance().groupId != nil {
+        } else if MyObject.instance().groupId != "" {
             let groupId = MyObject.instance().groupId
             let ref = Database.database().reference().child("group-users").child(groupId!)
             ref.observe(.childAdded, with: {
@@ -63,6 +69,7 @@ class AssigneeController: UIViewController, UITableViewDataSource, UITableViewDe
                     self.selectCheck.append(false)
                     self.users.append(user)
                     self.myTableView.reloadData()
+                    ref.removeAllObservers()
                 })
             } )
         }
@@ -148,8 +155,8 @@ class AssigneeController: UIViewController, UITableViewDataSource, UITableViewDe
         view.addSubview(selectAllButton)
         view.addSubview(myTableView)
         
-        deselectButton.anchor(view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.centerXAnchor, topConstant: 120, leftConstant: 12, bottomConstant: 0, rightConstant: 6, widthConstant: 0, heightConstant: 38)
-        selectAllButton.anchor(view.topAnchor, left: view.centerXAnchor, bottom: nil, right: view.rightAnchor, topConstant: 120, leftConstant: 6, bottomConstant: 0, rightConstant: 12, widthConstant: 0, heightConstant: 38)
+        deselectButton.anchor(view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.centerXAnchor, topConstant: 70, leftConstant: 12, bottomConstant: 0, rightConstant: 6, widthConstant: 0, heightConstant: 38)
+        selectAllButton.anchor(view.topAnchor, left: view.centerXAnchor, bottom: nil, right: view.rightAnchor, topConstant: 70, leftConstant: 6, bottomConstant: 0, rightConstant: 12, widthConstant: 0, heightConstant: 38)
         
         myTableView.anchor(deselectButton.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, topConstant: 6, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 0)
         

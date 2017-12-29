@@ -161,6 +161,7 @@ class MessageController: UITableViewController, UITextFieldDelegate {
                 (DataSnapshot) in
                 let dictionary = DataSnapshot.value as! [String: AnyObject]
                 MyObject.instance().userNameFromMessage = dictionary["name"] as! String
+                MyObject.instance().addTaskSource = ""
                 self.navigationController?.popViewController(animated: true)
             })
         } else {
@@ -172,6 +173,7 @@ class MessageController: UITableViewController, UITextFieldDelegate {
                 let dictionary = DataSnapshot.value as! [String: AnyObject]
                 let groupName = dictionary["name"] as! String
                 MyObject.instance().userNameFromMessage = "Group: \(groupName)"
+                MyObject.instance().addTaskSource = ""
                 self.navigationController?.popViewController(animated: true)
             })
             

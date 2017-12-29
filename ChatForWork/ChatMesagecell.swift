@@ -12,10 +12,9 @@ import Firebase
 class ChatMessageCell: UITableViewCell, UITextViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     var message: Message? {
         didSet {
-//            print(message?.nameDict?.count)
-//            print(message?.urlDict?.count)
-                self.setUpTaskView()
-                self.setUpNamesView()
+            if message?.dueDate != nil {
+                self.setUpTaskView() } else if (message?.nameDict?.count)! > Int(2) {
+                self.setUpNamesView() }
                 self.fetchUser()
         }
     }

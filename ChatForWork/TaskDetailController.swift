@@ -66,12 +66,28 @@ class TaskDetailController: UITableViewController {
         }
     }
     
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let text = task?.text
+        let height = MyObject.instance().estimateFrameForText(text: text!, width: view.frame.width - 20, height: 1000).height
+        if indexPath.section == 0 && indexPath.row == 0 {
+            return height + 16 }
+        return 50
+    }
+    
     func showEditTask() {
         let addTask = AddTaskController()
+        if task?.toId?.range(of: "Group") == nil {
+            MyObject.instance().userId = task?.toId }
+        else if task?.toId?.range(of: "Group") != nil {
+            MyObject.instance().groupId = task?.toId
+        }
+        MyObject.instance().taskEdit = true
+        MyObject.instance().taskId = task?.messageId
         MyObject.instance().taskText = (task?.text)!
         MyObject.instance().userNameFromMessage = (task?.taskReceiver)!
         MyObject.instance().dueDateText = (task?.dueDate)!
-        self.navigationController?.pushViewController(addTask, animated: true)
+        let navController = UINavigationController(rootViewController: addTask)
+        self.present(navController, animated: true, completion: nil)
     }
     
     func showChatLogForTask() {
@@ -159,6 +175,10 @@ class TaskDetailController: UITableViewController {
         return 20
     }
     
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0 
+    }
+    
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView()
         view.backgroundColor = UIColor(r: 235, g: 235, b: 235)
@@ -174,6 +194,10 @@ class TaskDetailCell: UITableViewCell {
     var rightLabel = UILabel()
     var taskTextView = UITextView()
     var rightLogo = UIImageView()
+    let linkAttributes: [String : Any] = [
+        NSForegroundColorAttributeName: UIColor.blue,
+        NSUnderlineColorAttributeName: UIColor.clear,
+        NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue]
     
     func setupViews() {
         leftLogo.isHidden = true
@@ -181,6 +205,10 @@ class TaskDetailCell: UITableViewCell {
         leftLabel.isHidden = true
         rightLabel.isHidden = true
         taskTextView.isHidden = true
+        taskTextView.isEditable = false
+        taskTextView.isSelectable = true
+        taskTextView.dataDetectorTypes = UIDataDetectorTypes.all
+        taskTextView.linkTextAttributes = linkAttributes
         taskTextView.font = UIFont.systemFont(ofSize: 16)
         taskTextView.textContainerInset = UIEdgeInsetsMake(8, 12, 8, 8)
         rightLogo.isHidden = true

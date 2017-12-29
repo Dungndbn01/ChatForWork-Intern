@@ -223,25 +223,25 @@ extension ChatLogController
         emoji.view.removeFromSuperview()
         partner.view.removeFromSuperview()
         optionsContainer.removeFromSuperview()
-        sendButton.setTitleColor(.blue, for: .normal)
         return true
     }
     
 //    func textFieldDidBeginEditing(_ textField: UITextField){
-//        if textField == inputTextView {
-//            emoji.view.removeFromSuperview()
-//            partner.view.removeFromSuperview()
-//            optionsContainer.removeFromSuperview()
-//            handleTextViewClick()
-//            sendButton.setTitleColor(.blue, for: .normal)
-//        }
+//        sendButton.setTitleColor(.blue, for: .normal)
 //    }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        handleTextViewClick()
-        emoji.view.removeFromSuperview()
-        partner.view.removeFromSuperview()
-        optionsContainer.removeFromSuperview()
+        handleSend()
+//        handleTextViewClick()
+//        emoji.view.removeFromSuperview()
+//        partner.view.removeFromSuperview()
+//        optionsContainer.removeFromSuperview()
+        return true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        sendButton.setTitleColor(.blue, for: .normal)
+        sendButton.isEnabled = true
         return true
     }
     

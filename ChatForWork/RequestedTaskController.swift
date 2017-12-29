@@ -16,9 +16,11 @@ class RequestedTaskController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         observerUserTasks()
+        self.tableView = UITableView(frame: CGRect.zero, style: .grouped)
         self.tableView.isScrollEnabled = true
         self.tableView.backgroundColor = .white
         self.tableView.register(MyTaskCell.self, forCellReuseIdentifier: cellId)
+        self.tableView.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: "headerId")
         
     }
     
@@ -71,7 +73,25 @@ class RequestedTaskController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        let text = messageTasks[indexPath.row].text
+        let height = MyObject.instance().estimateFrameForText(text: text!, width: view.frame.width - 68, height: 1000).height
+        return 12 + height + 8 + 18 + 12 + 8
     }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView()
+        view.backgroundColor = UIColor(r: 235, g: 235, b: 235)
+        let todayLabel = UILabel()
+        todayLabel.text = "Today"
+        view.addSubview(todayLabel)
+        todayLabel.anchor(view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, topConstant: 0, leftConstant: 6, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 0)
+        
+        return view
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 25
+    }
+
 }
 
