@@ -9,8 +9,6 @@
 import UIKit
 import Firebase
 
-//class UserProfileController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate,UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegateFlowLayout {
-
 class UserProfileController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     lazy var backgroundImageView = UIImageView()
     lazy var profileImageView = UIImageView()
@@ -30,16 +28,13 @@ class UserProfileController: UIViewController, UICollectionViewDataSource, UICol
     let cellId = "cellId"
     let footerId = "footerId"
     var checkImageSource: Int?
-    
+    var source: String?
+    var bottomAnchor: CGFloat?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        bottomAnchor = source == "User List" ? 0 : 50
         self.view.backgroundColor = .white
-//        userProfileTable.dataSource = self
-//        userProfileTable.delegate = self
-//        userProfileTable.backgroundColor = .white
-//        userProfileTable.register(CustomCell.self, forCellWithReuseIdentifier: cellId)
-//        userProfileTable.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: footerId)
 
         if user != nil {
         setupTitleAndName(user: user!)
@@ -49,9 +44,7 @@ class UserProfileController: UIViewController, UICollectionViewDataSource, UICol
         }
         else if user == nil {
         fectchUser()
-            
         }
-//        addViews()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -347,7 +340,7 @@ class UserProfileController: UIViewController, UICollectionViewDataSource, UICol
         
         separatorView.anchor(backgroundImageView.bottomAnchor, left: self.view.leftAnchor, bottom: nil, right: self.view.rightAnchor, topConstant: 65, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 2)
         
-        userProfileTable.anchor(backgroundImageView.bottomAnchor, left: self.view.leftAnchor, bottom: self.view.bottomAnchor, right: self.view.rightAnchor, topConstant: 66, leftConstant: 0, bottomConstant: 50, rightConstant: 0, widthConstant: 0, heightConstant: 0)
+        userProfileTable.anchor(backgroundImageView.bottomAnchor, left: self.view.leftAnchor, bottom: self.view.bottomAnchor, right: self.view.rightAnchor, topConstant: 66, leftConstant: 0, bottomConstant: bottomAnchor!, rightConstant: 0, widthConstant: 0, heightConstant: 0)
         
         backButton.anchor(self.view.topAnchor, left: self.view.leftAnchor, bottom: nil, right: nil, topConstant: 30, leftConstant: 10, bottomConstant: 0, rightConstant: 0, widthConstant: 20, heightConstant: 20)
 

@@ -223,19 +223,29 @@ extension ChatLogController
         emoji.view.removeFromSuperview()
         partner.view.removeFromSuperview()
         optionsContainer.removeFromSuperview()
+        emoji.removeFromParentViewController()
+        partner.removeFromParentViewController()
+
+//        inputTextView.inputView = keyboardView.deleteKey
+//        inputTextView.becomeFirstResponder()
         return true
     }
     
-//    func textFieldDidBeginEditing(_ textField: UITextField){
-//        sendButton.setTitleColor(.blue, for: .normal)
-//    }
+    func textFieldDidBeginEditing(_ textField: UITextField){
+        emoji.view.removeFromSuperview()
+        partner.view.removeFromSuperview()
+        optionsContainer.removeFromSuperview()
+        emoji.removeFromParentViewController()
+        partner.removeFromParentViewController()
+
+        inputTextView.becomeFirstResponder()
+        inputTextView.inputView = keyboardView.deleteKey
+        inputTextView.becomeFirstResponder()
+        sendButton.setTitleColor(.blue, for: .normal)
+    }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         handleSend()
-//        handleTextViewClick()
-//        emoji.view.removeFromSuperview()
-//        partner.view.removeFromSuperview()
-//        optionsContainer.removeFromSuperview()
         return true
     }
     

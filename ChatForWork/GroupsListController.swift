@@ -114,6 +114,7 @@ class GroupsListController: UITableViewController {
         
         if indexPath.section == 1 {
             let group = self.groups[indexPath.row]
+//            MyObject.instance().chattingGroup = group
             let navigationController = self.navigationController
             self.showChatControllerForGroups(group: group, navigationController: navigationController!)
         }

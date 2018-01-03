@@ -306,7 +306,10 @@ class ChatLogController: UIViewController, UINavigationControllerDelegate, UITex
     }
     
     func showChatInformation() {
-//        self.present(ViewController1(), animated: true, completion: nil)
+        let chatInfo = ChatInfoController()
+        chatInfo.group = group
+        let navController = UINavigationController(rootViewController: chatInfo)
+        self.present(navController, animated: true, completion: nil)
     }
     
     func setupNavBar() {

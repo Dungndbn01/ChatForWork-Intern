@@ -100,6 +100,7 @@ class RegisterGroupController: UIViewController,UIImagePickerControllerDelegate,
                     print(error!)
                     return
                 }
+                
                 if let profileImageUrl = metadata?.downloadURL()?.absoluteString, let groupName = self.groupNameTextField.text  {
                     let values = ["id": groupId, "name": groupName, "profileImageUrl": profileImageUrl]
                     
@@ -118,11 +119,13 @@ class RegisterGroupController: UIViewController,UIImagePickerControllerDelegate,
                 print(err!)
                 return
             }
-            
-            self?.handleDismiss()
         })
         
-        //        let groupUsersReference = ref.child("groupUsers").child(groupId)
+        let groupUsersReference = ref.child("group-users").child(groupId)
+        let uid = Auth.auth().currentUser?.uid
+        groupUsersReference.updateChildValues([uid!: 1])
+        
+        self.handleDismiss()
     }
     
     

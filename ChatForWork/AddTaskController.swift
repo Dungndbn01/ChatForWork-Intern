@@ -199,7 +199,7 @@ class AddTaskController: UIViewController, UITableViewDataSource, UITableViewDel
         MyObject.instance().rowRef = nil
         MyObject.instance().addTaskSource = "Default"
         MyObject.instance().taskText = ""
-        MyObject.instance().userId = ""
+//        MyObject.instance().userId = ""
         MyObject.instance().groupId = ""
         MyObject.instance().dueDateText = ""
         MyObject.instance().userNameFromMessage = ""

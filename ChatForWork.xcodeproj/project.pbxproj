@@ -16,6 +16,7 @@
 		1679C0841FE9273700AB0C81 /* TaskController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1679C0831FE9273700AB0C81 /* TaskController.swift */; };
 		169B73981FF0D203002EAD76 /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169B73971FF0D203002EAD76 /* KeyboardViewController.swift */; };
 		169B739A1FF0F43B002EAD76 /* PartnerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169B73991FF0F43B002EAD76 /* PartnerController.swift */; };
+		16A99BF01FFC753300110FA3 /* ChatInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A99BEF1FFC753300110FA3 /* ChatInfoController.swift */; };
 		16B16B5F1FE7AFAC00636727 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B16B5E1FE7AFAC00636727 /* FirebaseManager.swift */; };
 		16B16B611FE7D2E400636727 /* ChatMesagecell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B16B601FE7D2E400636727 /* ChatMesagecell.swift */; };
 		16C10F6E1FECA3EC00534F15 /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C10F6D1FECA3EC00534F15 /* CustomCell.swift */; };
@@ -87,6 +88,7 @@
 		1679C0831FE9273700AB0C81 /* TaskController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskController.swift; sourceTree = "<group>"; };
 		169B73971FF0D203002EAD76 /* KeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
 		169B73991FF0F43B002EAD76 /* PartnerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerController.swift; sourceTree = "<group>"; };
+		16A99BEF1FFC753300110FA3 /* ChatInfoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInfoController.swift; sourceTree = "<group>"; };
 		16B16B5E1FE7AFAC00636727 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		16B16B601FE7D2E400636727 /* ChatMesagecell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMesagecell.swift; sourceTree = "<group>"; };
 		16C10F6D1FECA3EC00534F15 /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
@@ -279,6 +281,7 @@
 				1630205D1FF2524E00D92771 /* MyTaskController.swift */,
 				1630205F1FF2525F00D92771 /* RequestedTaskController.swift */,
 				163020631FF25EE000D92771 /* TaskDetailController.swift */,
+				16A99BEF1FFC753300110FA3 /* ChatInfoController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -405,8 +408,7 @@
 				TargetAttributes = {
 					7C3711941FE4B8BB00FC5D7E = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = T8UZ5C7N29;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					7C3711A81FE4B8BF00FC5D7E = {
 						CreatedOnToolsVersion = 8.3.3;
@@ -639,6 +641,7 @@
 			files = (
 				7C3AC0C41FE60341001B3E82 /* ChatLogController.swift in Sources */,
 				7C4436511FE66FB4005DFD23 /* ChatLogControllerHandler.swift in Sources */,
+				16A99BF01FFC753300110FA3 /* ChatInfoController.swift in Sources */,
 				7C087A751FEFDB0E00939D15 /* EmojiController.swift in Sources */,
 				7C3711DF1FE522BA00FC5D7E /* GroupsListController.swift in Sources */,
 				16B16B5F1FE7AFAC00636727 /* FirebaseManager.swift in Sources */,
@@ -831,12 +834,14 @@
 			baseConfigurationReference = EB35B3F82839050B51930287 /* Pods-ChatForWork.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = T8UZ5C7N29;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = ChatForWork/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Ominext.ChatForWork;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Ominext.ChatForWork2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -847,12 +852,14 @@
 			baseConfigurationReference = 3550574BD5C4377CAACA220D /* Pods-ChatForWork.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = T8UZ5C7N29;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = ChatForWork/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Ominext.ChatForWork;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Ominext.ChatForWork2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
